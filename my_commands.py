@@ -156,6 +156,10 @@ def execute_command(command):
         webbrowser.open("https://google.com")
         return "Opening Google"
 
+    elif "open anime" in command:
+        webbrowser.open("https://aniwatch.re/")
+        return "opening anime"
+
     # =========================
     # 💻 SOFTWARE
     # =========================
@@ -209,6 +213,37 @@ def execute_command(command):
             return type_text(text)
         else:
             return "What should I type?"
+
+    # =========================
+    # ⏰ TIME / DATE
+    # =========================
+    elif "time" in command:
+        import datetime
+        return datetime.datetime.now().strftime("Time is %I:%M %p")
+
+    elif "date" in command:
+        import datetime
+        return datetime.datetime.now().strftime("Today is %d %B %Y")
+
+
+    # =========================
+    # WHATS APP
+    # =========================
+
+
+
+    elif "send whatsapp message" in command:
+        # Example: send whatsapp message to rahul hello bro
+
+        parts = command.replace("send whatsapp message to", "").strip()
+
+        if parts:
+            data = parts.split(" ", 1)
+
+            contact = data[0]
+            message = data[1] if len(data) > 1 else "Hello"
+
+            return send_whatsapp_web(contact, message)
 
     # =========================
     # ❌ EXIT

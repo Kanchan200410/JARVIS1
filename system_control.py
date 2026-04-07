@@ -44,3 +44,43 @@ def type_text(text):
     time.sleep(1.5)
     pyautogui.write(text, interval=0.05)
     return "Typing completed"
+
+import pyautogui
+import webbrowser
+
+
+import webbrowser
+import pyautogui
+import time
+
+
+def open_whatsapp_web():
+    webbrowser.open("https://web.whatsapp.com")
+    time.sleep(12)
+    return "WhatsApp Web opened"
+
+
+def send_whatsapp_web(contact_name, message):
+
+    # Open WhatsApp Web
+    webbrowser.open("https://web.whatsapp.com")
+    time.sleep(12)  # wait for full load
+
+    # Focus search (better than clicking)
+    pyautogui.hotkey("ctrl", "f")
+    time.sleep(1)
+
+    # Type contact name
+    pyautogui.write(contact_name, interval=0.05)
+    time.sleep(2)
+
+    pyautogui.press("enter")
+    time.sleep(2)
+
+    # Type message
+    pyautogui.write(message, interval=0.05)
+    time.sleep(1)
+
+    pyautogui.press("enter")
+
+    return f"Message sent to {contact_name}"
