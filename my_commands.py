@@ -2,6 +2,7 @@ from ai_brain import ask_ai
 from memory import remember, recall
 from chat_memory import add_chat
 from system_control import *
+from contacts_db import add_contact, get_contact
 
 import os
 import webbrowser
@@ -120,13 +121,26 @@ def execute_command(command):
     # 🗑️ DELETE FILE
     # =========================
     elif "delete file" in command:
-        name = command.replace("delete file", "").strip()
+        filename = command.replace("delete file", "").strip()
 
-        if os.path.exists(name):
-            os.remove(name)
-            return f"Deleted file {name}"
-        else:
-            return "File not found"
+        import os
+        import string
+
+        drives = [f"{d}:\\" for d in string.ascii_uppercase if os.path.exists(f"{d}:\\")]
+
+        for drive in drives:
+            for root, dirs, files in os.walk(drive):
+                for file in files:
+                    if filename.lower() in file.lower():
+                        full_path = os.path.join(root, file)
+
+                        try:
+                            os.remove(full_path)
+                            return f"Deleted {file} from {root}"
+                        except:
+                            return "Permission denied"
+
+        return "File not found"
 
     # =========================
     # 📂 OPEN FOLDER
@@ -225,25 +239,37 @@ def execute_command(command):
         import datetime
         return datetime.datetime.now().strftime("Today is %d %B %Y")
 
+    #SAVE CONTACTS
 
-    # =========================
-    # WHATS APP
-    # =========================
+    elif "save contact" in command:
+        parts = command.replace("save contact", "").strip().split()
 
+        if len(parts) >= 2:
+            name = parts[0]
+            number = parts[1]
 
+            return add_contact(name, number)
 
-    elif "send whatsapp message" in command:
-        # Example: send whatsapp message to rahul hello bro
+        return "Give name and number"
 
-        parts = command.replace("send whatsapp message to", "").strip()
+    #SEND WHATSAPP
+
+    elif "send whatsapp" in command:
+        parts = command.replace("send whatsapp", "").strip()
 
         if parts:
             data = parts.split(" ", 1)
 
-            contact = data[0]
+            name = data[0]
             message = data[1] if len(data) > 1 else "Hello"
 
-            return send_whatsapp_web(contact, message)
+            number = get_contact(name)
+
+            if number:
+                return send_whatsapp_web(number, message)
+            else:
+                return f"Contact {name} not found"
+
 
     # =========================
     # ❌ EXIT

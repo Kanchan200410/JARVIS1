@@ -1,7 +1,9 @@
 import pyautogui
+import webbrowser
 import screen_brightness_control as sbc
 import os
 import time
+import urllib.parse
 
 pyautogui.FAILSAFE = False
 
@@ -46,41 +48,26 @@ def type_text(text):
     return "Typing completed"
 
 import pyautogui
-import webbrowser
 
+# 📱 Send WhatsApp Message (BEST METHOD 🔥)
+def send_whatsapp_web(phone_number, message):
 
-import webbrowser
-import pyautogui
-import time
+    # Encode message for URL
+    # Encode message
+    msg = urllib.parse.quote(message)
 
+    # Open WhatsApp chat
+    url = f"https://web.whatsapp.com/send?phone={phone_number}&text={msg}"
+    webbrowser.open(url)
 
-def open_whatsapp_web():
-    webbrowser.open("https://web.whatsapp.com")
-    time.sleep(12)
-    return "WhatsApp Web opened"
+    # Wait for full load
+    time.sleep(15)   # ⬅️ increase time (VERY IMPORTANT)
 
-
-def send_whatsapp_web(contact_name, message):
-
-    # Open WhatsApp Web
-    webbrowser.open("https://web.whatsapp.com")
-    time.sleep(12)  # wait for full load
-
-    # Focus search (better than clicking)
-    pyautogui.hotkey("ctrl", "f")
+    # Click center of screen to ensure focus
+    pyautogui.click(800, 500)   # adjust if needed
     time.sleep(1)
 
-    # Type contact name
-    pyautogui.write(contact_name, interval=0.05)
-    time.sleep(2)
-
-    pyautogui.press("enter")
-    time.sleep(2)
-
-    # Type message
-    pyautogui.write(message, interval=0.05)
-    time.sleep(1)
-
+    # Press enter
     pyautogui.press("enter")
 
-    return f"Message sent to {contact_name}"
+    return "Message sent successfully"
