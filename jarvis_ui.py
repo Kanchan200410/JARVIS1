@@ -9,7 +9,6 @@ from voice import listen, speak
 from my_commands import execute_command
 from ai_brain import ask_ai
 
-
 # =========================
 # COLORS
 # =========================

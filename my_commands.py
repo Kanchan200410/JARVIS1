@@ -3,6 +3,7 @@ from memory import remember, recall
 from chat_memory import add_chat
 from system_control import *
 from contacts_db import add_contact, get_contact
+from translator import translate_text, speak_in_language
 
 import os
 import webbrowser
@@ -25,9 +26,12 @@ def execute_command(command):
 
         return f"Okay, I will remember that your name is {name}"
 
-    elif "name" in command and "my" in command:
+
+    elif "what is my name" in command or "mera naam kya hai" in command:
+
         name = recall("name")
-        return f"Your name is {name}" if name else "I don't know your name yet"
+
+        return f"Your name is {name}" if name else "I don't know your name"
 
     # =========================
     # 🧠 MEMORY: GENERIC
@@ -277,6 +281,31 @@ def execute_command(command):
                 return send_whatsapp_web(number, message)
             else:
                 return f"Contact {name} not found"
+
+
+        # =========================
+        # 🗣 SPEAK IN LANGUAGE
+        # =========================
+        elif "speak in" in command:
+            # Example: speak in french hello
+            parts = command.replace("speak in", "").strip().split(" ", 1)
+
+            if len(parts) >= 2:
+                lang = parts[0]
+                text = parts[1]
+
+                lang_map = {
+                    "hindi": "hi",
+                    "bengali": "bn",
+                    "french": "fr",
+                    "spanish": "es",
+                    "german": "de"
+                }
+
+                lang_code = lang_map.get(lang, "en")
+                speak_in_language(text, lang_code)
+
+                return f"Speaking in {lang}"
 
 
     # =========================
