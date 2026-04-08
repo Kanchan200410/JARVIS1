@@ -211,8 +211,16 @@ def execute_command(command):
     # 📝 WRITE NOTE
     # =========================
     elif "write note" in command:
-        text = command.replace("write note", "").strip()
-        return write_note(text if text else "This is a note from Jarvis")
+
+        topic = command.replace("write note", "").strip()
+
+        if not topic:
+            topic = "write something interesting"
+
+        # 🔥 Generate content using AI
+        content = ask_ai(f"Write a detailed note about: {topic}")
+
+        return write_note(content)
 
     # =========================
     # ⌨️ TYPE
