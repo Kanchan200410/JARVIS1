@@ -282,7 +282,7 @@ def execute_command(command):
     # =========================
     # ❌ EXIT
     # =========================
-    elif "exit" in command or "stop" in command:
+    elif "exit" in command:
         return False
 
     # =========================
