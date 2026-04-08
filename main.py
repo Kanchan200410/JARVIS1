@@ -1,5 +1,6 @@
 from voice import speak, listen
 from my_commands import execute_command
+from ai_brain import ask_ai
 
 def run_jarvis():
     speak("Hey! Jarvis here.")
@@ -20,6 +21,11 @@ def run_jarvis():
 
             elif isinstance(result, str):
                 speak(result)
+
+            else:
+                # 🔥 AI fallback
+                response = ask_ai(command)
+                speak(response)
 
 if __name__ == "__main__":
     run_jarvis()

@@ -123,7 +123,7 @@ def execute_command(command):
     elif "delete file" in command:
         filename = command.replace("delete file", "").strip()
 
-        import os
+
         import string
 
         drives = [f"{d}:\\" for d in string.ascii_uppercase if os.path.exists(f"{d}:\\")]
