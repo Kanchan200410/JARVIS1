@@ -38,6 +38,8 @@ def speak(text):
     ).start()
 
 
+
+
 async def generate_and_play(text):
     import uuid
     file = f"voice_{uuid.uuid4()}.mp3"
