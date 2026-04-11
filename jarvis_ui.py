@@ -420,6 +420,9 @@ class JarvisApp:
             self.root.after(0, lambda: self._set_status("IDLE"))
             time.sleep(0.1)
 
+
+
+
     # =========================
     # GREETING (unchanged)
     # =========================
