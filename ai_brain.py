@@ -2,7 +2,7 @@ from groq import Groq
 import os
 
 # 🔐 Use environment variable (IMPORTANT)
-client = Groq(api_key="")
+client = Groq(api_key="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")
 
 conversation_history = []
 
@@ -50,3 +50,4 @@ def explain_vision(data):
     """
 
     return ask_ai(prompt)
+#hello
