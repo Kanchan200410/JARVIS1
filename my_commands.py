@@ -4,6 +4,8 @@ from chat_memory import add_chat
 from system_control import *
 from contacts_db import add_contact, get_contact
 from translator import translate_text, speak_in_language
+from vision import capture_screen, capture_camera, process_vision
+from ai_brain import explain_vision
 
 import os
 import webbrowser
@@ -306,6 +308,27 @@ def execute_command(command):
                 speak_in_language(text, lang_code)
 
                 return f"Speaking in {lang}"
+
+        # =========================
+        # 👁️ VISION COMMANDS (NEW)
+        # =========================
+        elif "screen" in command:
+            frame = capture_screen()
+
+            if frame is not None:
+                data = process_vision(frame)
+                return explain_vision(data)
+            else:
+                return "Failed to capture screen"
+
+        elif "camera" in command:
+            frame = capture_camera()
+
+            if frame is not None:
+                data = process_vision(frame)
+                return explain_vision(data)
+            else:
+                return "Camera not working"
 
 
     # =========================
