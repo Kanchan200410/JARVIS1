@@ -2,7 +2,7 @@ from groq import Groq
 import os
 
 # 🔐 Use environment variable (IMPORTANT)
-client = Groq(api_key="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")
+client = Groq(api_key="")
 
 conversation_history = []
 
