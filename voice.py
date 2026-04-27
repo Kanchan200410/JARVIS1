@@ -4,14 +4,12 @@ import pygame
 import threading
 import speech_recognition as sr
 import time
-
+import os
 
 is_playing = False
 
-##hello
-
 # =========================
-# 🔊 PLAY AUDIO
+# 🔊 PLAY AUDIO (AUTO DELETE)
 # =========================
 def play_audio(file):
     global is_playing
@@ -27,12 +25,24 @@ def play_audio(file):
 
     is_playing = False
 
+    # ✅ VERY IMPORTANT (release file)
+    try:
+        pygame.mixer.music.unload()
+    except:
+        pass
+
+    # ✅ DELETE FILE AFTER PLAY
+    try:
+        os.remove(file)
+    except:
+        pass
+
 
 # =========================
 # 🔊 SPEAK FUNCTION
 # =========================
 def speak(text):
-    short_text = text[:200]   # limit speech
+    short_text = text[:200]
     print("Jarvis:", text)
 
     threading.Thread(
@@ -40,40 +50,27 @@ def speak(text):
     ).start()
 
 
-## hello how are you
-
+# =========================
+# 🔊 GENERATE + PLAY
+# =========================
 async def generate_and_play(text):
     import uuid
     file = f"voice_{uuid.uuid4()}.mp3"
 
     communicate = edge_tts.Communicate(text, voice="en-US-GuyNeural")
-
-    # 🔥 stream faster (important)
     await communicate.save(file)
 
-    play_audio(file)
+    play_audio(file)   # file gets deleted after playing
 
 
 # =========================
-# ⛔ STOP FUNCTION
-# =========================
-def stop():
-    try:
-        pygame.mixer.music.stop()
-    except:
-        pass
-
-
-# =========================
-# 🎤 LISTEN
+# 🎤 LISTEN (NO INTERRUPT)
 # =========================
 def listen():
     r = sr.Recognizer()
 
     with sr.Microphone() as source:
         print("Listening...")
-
-        stop()  # 🔥 REAL interrupt
 
         r.adjust_for_ambient_noise(source, duration=1)
         audio = r.listen(source)
